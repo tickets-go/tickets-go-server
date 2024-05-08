@@ -6,6 +6,7 @@ import cors from "cors";
 import path from "path";
 
 import indexRouter from "./routes/index";
+import userRouter from "./routes/user.route";
 
 import "./connections";
 
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use("/", indexRouter);
+app.use("/api/v1/auth", userRouter);
 
 
 app.use("/coverage", express.static(path.join(__dirname, "/..", "/coverage")));
