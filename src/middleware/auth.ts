@@ -22,11 +22,19 @@ const jwtFn: any = {
       await User.findByIdAndUpdate(userInfo["_id"], {token : ""}, {new : true});
 
       // generate a new JWT token for the user
-      const jwtToken = jwt.sign({id : userInfo["_id"].toString()}, process.env.JWT_SECRET, {expiresIn : process.env.JWT_DAYS});
+      const jwtToken = jwt.sign(
+        {
+          id : userInfo["_id"].toString(),
+          name: userInfo.name,
+          role: userInfo.role
+        }, 
+        process.env.JWT_SECRET, 
+        {expiresIn : process.env.JWT_DAYS}
+      );
       
       // update the user's token
       await User.findByIdAndUpdate(userInfo["_id"], {token : jwtToken.toString()}, {new : true});
-      handleSuccess(res, { accessToken: jwtToken }, "Login successfully");
+      handleSuccess(res, { accessToken: jwtToken }, "success");
     } catch (err) {
       console.error("Error during JWT generation or database update:", err);
 

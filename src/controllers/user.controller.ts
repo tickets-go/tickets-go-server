@@ -40,7 +40,8 @@ const userController = {
         password: secretPassword,
         birthday : birthday,
       });
-      handleSuccess(res, newUser, "Sign up successfully");
+
+      jwtFn.jwtGenerator(newUser, res, next);
     } catch (err) {
       return next(err);
     }
