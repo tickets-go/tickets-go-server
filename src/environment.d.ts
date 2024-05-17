@@ -10,6 +10,7 @@ declare global {
       MONGODB_CONNECT_STRING: string;
       JWT_SECRET: string;
       JWT_DAYS: string;
+      SWAGGER_HOST: string;
     }
   }
 }

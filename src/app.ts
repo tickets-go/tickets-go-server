@@ -4,6 +4,9 @@ import logger from "morgan";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import path from "path";
+import swaggerUI from "swagger-ui-express";
+
+import swaggerFile from '../src/swagger-output.json';
 
 import indexRouter from "./routes/index";
 import userRouter from "./routes/user.route";
@@ -20,6 +23,7 @@ app.use(cookieParser());
 
 app.use("/", indexRouter);
 app.use("/api/v1/auth", userRouter);
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerFile))
 
 
 app.use("/coverage", express.static(path.join(__dirname, "/..", "/coverage")));

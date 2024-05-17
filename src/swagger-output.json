@@ -1,0 +1,214 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "TicketsGo API",
+    "description": "TicketsGo API document",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "BearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "輸入 API token"
+    }
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/auth/register": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "會員註冊",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "輸入會員資料",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "User"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "User@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "User1234"
+                },
+                "passwordConfirm": {
+                  "type": "string",
+                  "example": "User1234"
+                },
+                "birthday": {
+                  "type": "string",
+                  "example": "2024-01-01"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "accessToken": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDI0MTk3YjMxNzlkZTk2ZDA5OTE4MSIsIm5hbWUiOiJVc2VyMTIzIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3MTU2MTgxOTksImV4cCI6MTcxNjIyMjk5OX0.DGVcQFxLSR_K_ks2rSDLhFsO02P-v2c5kxbyGoTIzJE"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "會員登入",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "輸入會員資料",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "User@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "User1234"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "accessToken": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDI0MTk3YjMxNzlkZTk2ZDA5OTE4MSIsIm5hbWUiOiJVc2VyMTIzIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3MTU2MTgxOTksImV4cCI6MTcxNjIyMjk5OX0.DGVcQFxLSR_K_ks2rSDLhFsO02P-v2c5kxbyGoTIzJE"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "會員登出",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "取得所有會員",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    }
+  }
+}
