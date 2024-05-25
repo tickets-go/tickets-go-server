@@ -2,8 +2,8 @@ import { Response } from "express";
 
 /* reply format:
 {
-  ok: boolean,  // true: success, false: error
-  msg: string, // supplementary message
+  status: boolean,  // true: success, false: error
+  message: string, // supplementary message
   data: string | array | object  // reply data depends on the request
 }
 */

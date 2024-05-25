@@ -3,7 +3,6 @@ import express, { Request, Response, NextFunction } from "express";
 import logger from "morgan";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import path from "path";
 import swaggerUI from "swagger-ui-express";
 
 import swaggerFile from '../src/swagger-output.json';
@@ -26,8 +25,6 @@ app.use("/api/v1/auth", userRouter);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerFile))
 
 
-app.use("/coverage", express.static(path.join(__dirname, "/..", "/coverage")));
-
 // catch 404 (NOT FOUND) and forward to error handler
 app.use((req: Request, res: Response, next: NextFunction) => {
   next(createError(404));
@@ -36,12 +33,11 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 // error handler
 app.use(function (err: any, req: Request, res: Response) {
   // set locals, only providing error in development
-  res.locals = {}; // clear res.locals
+  res.locals = {};
   res.locals.status = false;
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {}; // NODE_ENV in .env file
 
-  // render the error page
   res.status(err.status || 500);
 
   res.send(res.locals);
