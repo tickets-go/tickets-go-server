@@ -15,22 +15,22 @@ const userController = {
       const { name, email, password, passwordConfirm, birthday } = req.body;
       const emailCheck = await User.findOne({ email: email });
       if (emailCheck) {
-        return handleError(res, createError(400, "Email already exists"));
+        return handleError(res, createError(400, "電子郵件已被註冊過"));
       }
       if (!name || !email || !password || !passwordConfirm) {
-        return handleError(res, createError(400, "Some fields are still empty."));
+        return handleError(res, createError(400, "有欄位尚未填寫！"));
       }
       if (!validator.isEmail(email)) {
-        return handleError(res, createError(400, "Invalid email format"));
+        return handleError(res, createError(400, "電子郵件格式錯誤"));
       }
       if (!regex.test(password)) {
-        return handleError(res, createError(400, "The password format is incorrect. It must contain at least one uppercase and one lowercase letter."));
+        return handleError(res, createError(400, "密碼格式不正確，必須包含至少一個大寫字母和一個小寫字母"));
       }
       if (!validator.isLength(password, { min: 8 })) {
-        return handleError(res, createError(400, "Password must be at least 8 characters"));
+        return handleError(res, createError(400, "密碼至少要 8 個字元"));
       }
       if (password !== passwordConfirm) {
-        return handleError(res, createError(400, "Passwords do not match"));
+        return handleError(res, createError(400, "密碼不一致，請重新輸入"));
       }
       const salt = await bcrypt.genSalt(8);
       const secretPassword = await bcrypt.hash(password, salt);
@@ -40,7 +40,8 @@ const userController = {
         password: secretPassword,
         birthday : birthday,
       });
-      handleSuccess(res, newUser, "Sign up successfully");
+
+      jwtFn.jwtGenerator(newUser, res, next);
     } catch (err) {
       return next(err);
     }
@@ -51,16 +52,16 @@ const userController = {
     try {
       const { email, password } = req.body;
       if (!email || !password) {
-        return handleError(res, createError(400, "Some fields are still empty."));
+        return handleError(res, createError(400, "有欄位尚未填寫！"));
       }
 
       const user = await User.findOne({ email: email }).select("+password");
       if (!user) {
-        return handleError(res, createError(400, "Account does not exist"));
+        return handleError(res, createError(400, "帳戶不存在，請重新輸入"));
       }
       const checkPassword = await bcrypt.compare(password, user.password);
       if (!checkPassword) {
-        return handleError(res, createError(400, "Password is incorrect"));
+        return handleError(res, createError(400, "密碼錯誤，請重新輸入"));
       }
       jwtFn.jwtGenerator(user, res, next);
     } catch (err) {
@@ -72,7 +73,7 @@ const userController = {
   async logout(req: Request, res: Response, next: NextFunction) {
     try {
       await User.updateOne({ _id: (req as any).user.id }, { token: "" });
-      handleSuccess(res, "", "Logout successfully");
+      handleSuccess(res, "", "登出成功");
     } catch (err) {
       return next(err);
     }

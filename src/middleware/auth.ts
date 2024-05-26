@@ -15,25 +15,33 @@ const jwtFn: any = {
   // generating token
   async jwtGenerator(userInfo: any, res: any, next: NextFunction) {
     if (!userInfo || !userInfo["_id"]) {
-      return handleError(res, createError(400, "Invalid user information"));
+      return handleError(res, createError(400, "無效的用戶資訊"));
     }
 
     try {
       await User.findByIdAndUpdate(userInfo["_id"], {token : ""}, {new : true});
 
       // generate a new JWT token for the user
-      const jwtToken = jwt.sign({id : userInfo["_id"].toString()}, process.env.JWT_SECRET, {expiresIn : process.env.JWT_DAYS});
+      const jwtToken = jwt.sign(
+        {
+          id : userInfo["_id"].toString(),
+          name: userInfo.name,
+          role: userInfo.role
+        }, 
+        process.env.JWT_SECRET, 
+        {expiresIn : process.env.JWT_DAYS}
+      );
       
       // update the user's token
       await User.findByIdAndUpdate(userInfo["_id"], {token : jwtToken.toString()}, {new : true});
-      handleSuccess(res, { accessToken: jwtToken }, "Login successfully");
+      handleSuccess(res, { accessToken: jwtToken }, "success");
     } catch (err) {
       console.error("Error during JWT generation or database update:", err);
 
       try {
         await User.findByIdAndUpdate(userInfo["_id"], {token : ""}, {new : true});
       } catch (err) {
-        console.error("rror resetting the user's token after a failure:", err);
+        console.error("error resetting the user's token after a failure:", err);
       }
 
       return next(err);
@@ -48,7 +56,7 @@ const jwtFn: any = {
         token = req.headers.authorization.split(" ")[1];
       };
       if (!token) {
-        return handle401Error(res, "Please login.");
+        return handle401Error(res, "請先登入");
       };
       const decodedPayload: any = await new Promise((resolve, reject) => {
         jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
@@ -63,10 +71,10 @@ const jwtFn: any = {
       // login
       const user = await User.findOne({ "_id" : decodedPayload.id}).select("token role");
       if(!user){
-          return handle401Error(res, "Please login.");
+          return handle401Error(res, "請先登入");
       }
       if(!user.token || user.token != token){
-          return handle401Error(res, "Invalid authentication token, please login again.");
+          return handle401Error(res, "無效的 Token，請重新登入");
       }
 
       req.user = user;
