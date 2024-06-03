@@ -30,10 +30,6 @@ const userSchema = new mongoose.Schema({
     required: [true, "請輸入密碼"],
     minlength: [8, "密碼至少要 8 個字元"],
   },
-  birthday: {
-    type: Date,
-    required: [true, "請輸入生日"],
-  },
   token : {
     type : String,
     default : "",
