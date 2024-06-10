@@ -11,6 +11,8 @@ import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
 import indexRouter from './routes/index'
 import userRouter from './routes/user.route'
 import authRouter from './routes/auth'
+import eventRouter from './routes/event.route'
+import orderRouter from './routes/order.route'
 
 import './connections'
 
@@ -37,6 +39,8 @@ passport.use(
 
 app.use('/', indexRouter)
 app.use('/api/v1/auth', userRouter)
+app.use('/api/v1/event', eventRouter)
+app.use('/api/v1/order', orderRouter)
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerFile))
 app.use('/auth', authRouter)
 
