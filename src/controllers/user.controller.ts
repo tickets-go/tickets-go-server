@@ -80,6 +80,31 @@ const userController = {
     }
   },
 
+  // handle Google login/register
+  async googleAuth(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { displayName, emails } = req.user
+      const email = emails[0].value
+
+      const user = await User.findOne({ email: email })
+      
+      if (!user) {
+        // TODO: password 初始值要修改
+        const newUser = await User.create({
+          name: displayName,
+          email: email,
+          password: 123
+        })
+
+        jwtFn.jwtGenerator(newUser, res, next)
+      } else {
+        jwtFn.jwtGenerator(user, res, next)
+      }
+    } catch (error) {
+      return next(error)
+    }
+  },
+
   // get all users
   async getUsers(req: Request, res: Response, next: NextFunction) {
     try {
