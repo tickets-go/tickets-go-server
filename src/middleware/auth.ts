@@ -26,7 +26,8 @@ const jwtFn: any = {
         {
           id : userInfo["_id"].toString(),
           name: userInfo.name,
-          role: userInfo.role
+          role: userInfo.role,
+          email: userInfo.email
         }, 
         process.env.JWT_SECRET, 
         {expiresIn : process.env.JWT_DAYS}
