@@ -34,7 +34,9 @@ const jwtFn: any = {
       );
       
       // update the user's token
-      await User.findByIdAndUpdate(userInfo["_id"], {token : jwtToken.toString()}, {new : true});
+      await User.findByIdAndUpdate(userInfo["_id"], { token: jwtToken.toString() }, { new: true });
+      
+      return jwtToken;
       handleSuccess(res, { accessToken: jwtToken }, "success");
     } catch (err) {
       console.error("Error during JWT generation or database update:", err);
