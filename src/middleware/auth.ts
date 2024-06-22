@@ -86,6 +86,47 @@ const jwtFn: any = {
     } catch (err) {
       return next(err);
     }
+  },
+
+  // verify admin
+  async isAdmin(req: Request, res: Response, next: NextFunction) {
+    let token = "";
+    if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
+      token = req.headers.authorization.split(" ")[1];
+    };
+    if (!token) {
+      return handle401Error(res, "請先登入");
+    };
+    const decodedPayload: any = await new Promise((resolve, reject) => {
+      jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
+        if (err) {
+          return reject(err);
+        } else {
+          resolve(payload);
+        }
+      })
+    });
+
+    // login
+    const user = await User.findOne({ "_id" : decodedPayload.id}).select("token role");
+    if(!user){
+        return handle401Error(res, "請先登入");
+    }
+    if(!user.token || user.token != token){
+        return handle401Error(res, "無效的 Token，請重新登入");
+    }
+
+    req.user = user;
+    req.token = token;
+
+    if (user && user.role === "admin") {
+      console.log("admin");
+      req.user = user;
+      req.token = token;
+      next();
+    } else {
+      return handle401Error(res, "權限不足");
+    }
   }
 }
 
