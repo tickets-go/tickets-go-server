@@ -185,31 +185,6 @@
         ]
       }
     },
-    "/api/v1/auth/users": {
-      "get": {
-        "tags": [
-          "Users"
-        ],
-        "description": "取得所有會員",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "BearerAuth": []
-          }
-        ]
-      }
-    },
     "/api/v1/auth/google": {
       "get": {
         "tags": [
@@ -325,6 +300,322 @@
             "description": ""
           }
         }
+      }
+    },
+    "/api/v1/tag/tags": {
+      "get": {
+        "tags": [
+          "Tags"
+        ],
+        "description": "取得所有標籤",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "標籤讀取成功"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "example": "66766f29e769161549620f38"
+                      },
+                      "tagName": {
+                        "type": "string",
+                        "example": "演唱會"
+                      },
+                      "tagStatus": {
+                        "type": "boolean",
+                        "example": true
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/tag/{id}": {
+      "get": {
+        "tags": [
+          "Tags"
+        ],
+        "description": "取得單一標籤",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "66766c188b7fc755779b4840"
+                    },
+                    "tagName": {
+                      "type": "string",
+                      "example": "演唱會"
+                    },
+                    "tagStatus": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Tags"
+        ],
+        "description": "更新單一標籤",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "輸入標籤名稱",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "tagName": {
+                  "type": "string",
+                  "example": "演唱會2024"
+                },
+                "tagStatus": {
+                  "type": "boolean",
+                  "example": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Tags"
+        ],
+        "description": "刪除單一標籤",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "標籤刪除成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "66766f29e769161549620f38"
+                    },
+                    "tagName": {
+                      "type": "string",
+                      "example": "演唱會2024"
+                    },
+                    "tagStatus": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/tag/": {
+      "post": {
+        "tags": [
+          "Tags"
+        ],
+        "description": "新增標籤",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "輸入標籤名稱",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "tagName": {
+                  "type": "string",
+                  "example": "演唱會"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "標籤新增成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "tagName": {
+                      "type": "string",
+                      "example": "演唱會"
+                    },
+                    "tagStatus": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "_id": {
+                      "type": "string",
+                      "example": "66766f29e769161549620f38"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2024-06-22T06:28:57.085Z"
+                    },
+                    "updateAt": {
+                      "type": "string",
+                      "example": "2024-06-22T06:28:57.085Z"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/api/v1/image/upload/event/{eventId}": {
@@ -642,6 +933,48 @@
             "BearerAuth": []
           }
         ]
+      }
+    },
+    "/api/v1/user/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "取得所有會員",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/user/": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
       }
     }
   }
