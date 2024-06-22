@@ -13,6 +13,7 @@ import authRouter from './routes/auth.route'
 import userRouter from './routes/user.route'
 import eventRouter from './routes/event.route'
 import orderRouter from './routes/order.route'
+import tagRouter from './routes/tag.route'
 import imageRouter from './routes/image.route'
 
 import './connections'
@@ -42,6 +43,7 @@ app.use('/', indexRouter)
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/event', eventRouter)
 app.use('/api/v1/order', orderRouter)
+app.use('/api/v1/tag', tagRouter)
 app.use('/api/v1/image', imageRouter)
 app.use('/api/v1/user', userRouter)
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerFile))
