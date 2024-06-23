@@ -33,12 +33,12 @@ const tagController = {
   // create tag
   async createTag(req: Request, res: Response, next: NextFunction) {
     try {
-      const { tagName } = req.body
+      const { tagName, tagStatus } = req.body
       if (!tagName) {
         return handleError(res, createError(400, '請輸入標籤名稱'))
       }
 
-      const newTag = await Tag.create({ tagName })
+      const newTag = await Tag.create({ tagName, tagStatus})
       handleSuccess(res, newTag, '標籤新增成功')
     } catch (err) { 
       return next(err)
