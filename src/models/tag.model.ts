@@ -14,10 +14,10 @@ const tagSchema = new mongoose.Schema({
     default: Date.now,
     select: false,
   },
-  updateAt: {
+  updatedAt: {
     type: Date,
     default: Date.now,
-    select: false,
+    select: true,
   }
 }, {
     versionKey: false
