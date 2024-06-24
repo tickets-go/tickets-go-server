@@ -4,12 +4,19 @@ import { handleErrorAsync } from "../service/handleErrorAsync";
 
 const router = Router();
 
-// create
+//500 get all event
+router.get("/events", handleErrorAsync(eventController.findAllEvents));
+//501 get one event
+router.get("/:id", handleErrorAsync(eventController.findOneEvent));
+//502 create event
 router.post("/", handleErrorAsync(eventController.createEvent));
-router.get("/events", handleErrorAsync(eventController.getEvents));
-router.get("/events/:id", handleErrorAsync(eventController.findOneEvent));
-router.delete("/events", handleErrorAsync(eventController.deleteEvents));
+//503 update event
+router.patch("/:id", handleErrorAsync(eventController.updateEvent));
+//504 delete event
+router.delete("/events", handleErrorAsync(eventController.deleteEvent));
 
+//new 手動新增場地
+router.post("/place", handleErrorAsync(eventController.createPlace));
 
 
 export default router;
