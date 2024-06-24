@@ -5,20 +5,39 @@ import { handleErrorAsync } from "../service/handleErrorAsync";
 const router = Router();
 
 //200 select tickets count
-router.get("/tickets", handleErrorAsync(orderController.queryTickets));
+router.get("/tickets", 
+    /* 	#swagger.tags = ['Order']
+    #swagger.description = '200-查詢場次剩餘票數' */
+
+    handleErrorAsync(orderController.queryTickets));
 
 //201 select seats
-router.post("/seats", handleErrorAsync(orderController.querySeats));
+router.post("/seats", 
+    /* 	#swagger.tags = ['Order']
+    #swagger.description = '201-查詢場次剩餘座位' */
+
+    handleErrorAsync(orderController.querySeats));
 
 //202 lock seat
-router.post("/lock", handleErrorAsync(orderController.lockSeat));
+router.post("/lock", 
+    /* 	#swagger.tags = ['Order']
+    #swagger.description = '202-選擇座位(鎖定)' */
+    
+    handleErrorAsync(orderController.lockSeat));
 
 //203 create order
-router.post("/create", handleErrorAsync(orderController.createOrder));
+router.post("/create", 
+    /* 	#swagger.tags = ['Order']
+    #swagger.description = '203-產生訂單' */
+    
+    handleErrorAsync(orderController.createOrder));
 
 //205 select one order
-router.get("/:orderId", handleErrorAsync(orderController.queryOrder));
-
+router.get("/:orderId", 
+    /* 	#swagger.tags = ['Order']
+    #swagger.description = '205-查詢訂票' */
+    
+    handleErrorAsync(orderController.queryOrder));
 
 
 
