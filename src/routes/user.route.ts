@@ -3,9 +3,7 @@ import userController from '../controllers/user.controller'
 import { handleErrorAsync } from '../service/handleErrorAsync'
 import jwtFn from '../middleware/auth'
 
-
 const router = Router()
-
 
 // get users
 router.get(
@@ -24,19 +22,16 @@ router.get(
 ),
 
   // get users
-router.get(
-  '/',
-  jwtFn.isAuth,
-  handleErrorAsync(userController.getUser)
-)
+  router.get('/', jwtFn.isAuth, handleErrorAsync(userController.getUser)),
 
-// get user by id
-router.get('/:id', 
+  // get user by id
+  router.get(
+    '/:id',
 
-  /* 	#swagger.tags = ['Users']
+    /* 	#swagger.tags = ['Users']
     #swagger.description = '取得單一使用者' */
 
-  /* #swagger.responses[200] = { 
+    /* #swagger.responses[200] = { 
   schema: {
     "status": true,
     "message": "success",
@@ -48,15 +43,18 @@ router.get('/:id',
         "birthday": "2000-05-02T00:00:00.000Z"
     }
   }} */
-  /*
+    /*
     #swagger.security = [{
       "BearerAuth": []
     }]
   */
-jwtFn.isAuth, handleErrorAsync(userController.getUserById))
+    jwtFn.isAuth,
+    handleErrorAsync(userController.getUserById)
+  )
 
 // update user by id
-router.put('/:id', 
+router.put(
+  '/:id',
 
   /* 	#swagger.tags = ['Users']
     #swagger.description = '更新單一使用者' */
@@ -87,10 +85,13 @@ router.put('/:id',
       "BearerAuth": []
     }]
   */
-jwtFn.isAuth, handleErrorAsync(userController.updateUser))
+  jwtFn.isAuth,
+  handleErrorAsync(userController.updateUser)
+)
 
 // reset password
-router.patch('/reset-password/:id', 
+router.patch(
+  '/reset-password/:id',
 
   /* 	#swagger.tags = ['Users']
     #swagger.description = '更新密碼' */
@@ -115,11 +116,24 @@ router.patch('/reset-password/:id',
       "BearerAuth": []
     }]
   */
-jwtFn.isAuth, handleErrorAsync(userController.resetPassword))
+  jwtFn.isAuth,
+  handleErrorAsync(userController.resetPassword)
+)
+
+// get user orders
+/* 	#swagger.tags = ['Users']
+      #swagger.description = '取得會員訂單狀態' */
+router.get('/:userId/orders', jwtFn.isAuth, handleErrorAsync(userController.getUserOrders))
+
+// get user tracking events
+/* 	#swagger.tags = ['Users']
+      #swagger.description = '取得會員追蹤活動' */
+router.get('/:userId/tracking', jwtFn.isAuth, handleErrorAsync(userController.getUserTrackingEvents))
 
 /* Admin permision */
 // delete user by id (admin only)
-router.delete('/:id', 
+router.delete(
+  '/:id',
 
   /* 	#swagger.tags = ['Admin - Users']
     #swagger.description = '刪除單一使用者' */
@@ -140,6 +154,8 @@ router.delete('/:id',
       "BearerAuth": []
     }]
   */
-jwtFn.isAdmin, handleErrorAsync(userController.deleteUser))
+  jwtFn.isAdmin,
+  handleErrorAsync(userController.deleteUser)
+)
 
 export default router
