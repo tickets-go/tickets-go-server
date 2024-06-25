@@ -26,14 +26,14 @@ const userController = {
   async getUser(req: Request, res: Response, next: NextFunction) {
     try {
       if (!req.user) {
-        return handleError(res, createError(401, '權限錯誤，請重新操作'));
+        return handleError(res, createError(401, '權限錯誤，請重新操作'))
       }
 
-      const user = await User.findById(req.user.id).select('-password');
+      const user = await User.findById(req.user.id).select('-password')
       if (!user) {
-        return handleError(res, createError(404, '使用者資料不存在'));
+        return handleError(res, createError(404, '使用者資料不存在'))
       }
-      
+
       handleSuccess(res, user, 'success')
     } catch (err) {
       return next(err)

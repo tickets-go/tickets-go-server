@@ -3,13 +3,11 @@ import userController from '../controllers/user.controller'
 import { handleErrorAsync } from '../service/handleErrorAsync'
 import jwtFn from '../middleware/auth'
 
-
 const router = Router()
-
 
 // get users
 router.get(
-  '/users',
+  '/all',
 
   /* 	#swagger.tags = ['Users']
       #swagger.description = '取得所有會員' */
@@ -23,12 +21,8 @@ router.get(
   handleErrorAsync(userController.getUsers)
 ),
 
-  // get users
-router.get(
-  '/',
-  jwtFn.isAuth,
-  handleErrorAsync(userController.getUser)
-)
+// get users
+router.get('/', jwtFn.isAuth, handleErrorAsync(userController.getUser))
 
 // get user by id
 router.get('/:id', 
