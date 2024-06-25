@@ -236,27 +236,634 @@
         }
       }
     },
-    "/api/v1/event/": {
-      "post": {
-        "description": "",
+    "/api/v1/auth/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "取得所有會員",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
         "responses": {
           "default": {
             "description": ""
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/v1/auth/{id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "取得單一使用者",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "663b77def93ddc265a8921eb"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Allen"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "allen@gmail.com"
+                    },
+                    "role": {
+                      "type": "string",
+                      "example": "user"
+                    },
+                    "birthday": {
+                      "type": "string",
+                      "example": "2000-05-02T00:00:00.000Z"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "description": "更新單一使用者",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "輸入使用者資料",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "andytsai"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "andytsai@gmail.com"
+                },
+                "role": {
+                  "type": "string",
+                  "example": "user"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "使用者更新成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "665df4294ee521674bdff424"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "andytsai"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "andytsai@gmail.com"
+                    },
+                    "role": {
+                      "type": "string",
+                      "example": "user"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Admin - Users"
+        ],
+        "description": "刪除單一使用者",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "使用者刪除成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "6671bc213eb28ffb72fea721"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Allen"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "allen@gmail.com"
+                    },
+                    "role": {
+                      "type": "string",
+                      "example": "user"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/reset-password/{id}": {
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "description": "更新密碼",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "輸入使用者密碼",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "type": "string",
+                  "example": "Aa123456"
+                },
+                "passwordConfirm": {
+                  "type": "string",
+                  "example": "Aa123456"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "密碼重設成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/{userId}/orders": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/v1/auth/{userId}/tracking": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/v1/home/events": {
+      "get": {
+        "tags": [
+          "Home"
+        ],
+        "description": "100-查詢所有活動以及分類活動",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/v1/home/eventTags": {
+      "get": {
+        "tags": [
+          "Home"
+        ],
+        "description": "101-查詢活動類別[未完成]",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/v1/home/{eventId}": {
+      "get": {
+        "tags": [
+          "Home"
+        ],
+        "description": "104-查詢活動詳細資訊",
+        "parameters": [
+          {
+            "name": "eventId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "events": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "66797ba5fd4c72984e20ac7b"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "歐耶2023-24全台巡迴個人專場"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "歐耶2023-24全台巡迴個人專場【 老師雞開 啥 玩笑 ? 】歐耶老師雞 2024持續幹瘋狂的事~~上次 老師雞開 ❤️ 玩笑......."
+                        },
+                        "sessions": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "location": {
+                                "type": "string",
+                                "example": "台北小巨蛋"
+                              },
+                              "startDate": {
+                                "type": "string",
+                                "example": "1970-01-20T20:57:07.200Z"
+                              },
+                              "startTime": {
+                                "type": "string",
+                                "example": "17:00"
+                              },
+                              "endTime": {
+                                "type": "string",
+                                "example": "19:00"
+                              }
+                            }
+                          }
+                        },
+                        "tags": {
+                          "type": "array",
+                          "example": [
+                            "小巨蛋",
+                            "韓國團體"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
           }
         }
       }
     },
     "/api/v1/event/events": {
       "get": {
-        "description": "",
+        "tags": [
+          "Events"
+        ],
+        "description": "500-查詢所有活動",
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "example": "66797ba5fd4c72984e20ac7b"
+                      },
+                      "eventName": {
+                        "type": "string",
+                        "example": "歐耶2023-24全台巡迴個人專場"
+                      },
+                      "eventIntro": {
+                        "type": "string",
+                        "example": "【台北最終四場】歐耶2024最新全台巡迴個人專場：老師雞開啥玩笑?"
+                      },
+                      "eventContent": {
+                        "type": "string",
+                        "example": "歐耶2023-24全台巡迴個人專場【 老師雞開 啥 玩笑 ? 】歐耶老師雞 2024持續幹瘋狂的事~~上次 老師雞開 ❤️ 玩笑......."
+                      },
+                      "introImage": {
+                        "type": "string",
+                        "example": "imageUrl"
+                      },
+                      "bannerImage": {
+                        "type": "string",
+                        "example": "imageUrl"
+                      },
+                      "organizer": {
+                        "type": "string",
+                        "example": "卡米地 comedy club"
+                      },
+                      "eventStartDate": {
+                        "type": "string",
+                        "example": "1970-01-20T19:32:09.600Z"
+                      },
+                      "eventEndDate": {
+                        "type": "string",
+                        "example": "1970-01-20T20:15:21.599Z"
+                      },
+                      "releaseDate": {
+                        "type": "string",
+                        "example": "1970-01-20T19:32:09.600Z"
+                      },
+                      "payments": {
+                        "type": "array",
+                        "example": [
+                          "1",
+                          "2"
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "tags": {
+                        "type": "array",
+                        "example": [
+                          "小巨蛋",
+                          "韓國團體"
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "category": {
+                        "type": "array",
+                        "example": [
+                          "演唱會"
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "__v": {
+                        "type": "number",
+                        "example": 0
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
           }
         }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "Events"
+        ],
+        "description": "504-刪除活動",
+        "parameters": [
+          {
+            "name": "obj",
+            "eventId": [
+              ""
+            ],
+            "in": "query",
+            "type": "string"
+          }
+        ],
         "responses": {
           "default": {
             "description": ""
@@ -264,9 +871,170 @@
         }
       }
     },
-    "/api/v1/event/events/{id}": {
+    "/api/v1/event/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Events"
+        ],
+        "description": "501-查詢活動詳情",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "event": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "66797ba5fd4c72984e20ac7b"
+                        },
+                        "eventName": {
+                          "type": "string",
+                          "example": "歐耶2023-24全台巡迴個人專場"
+                        },
+                        "eventIntro": {
+                          "type": "string",
+                          "example": "【台北最終四場】歐耶2024最新全台巡迴個人專場：老師雞開啥玩笑?"
+                        },
+                        "eventContent": {
+                          "type": "string",
+                          "example": "歐耶2023-24全台巡迴個人專場【 老師雞開 啥 玩笑 ? 】歐耶老師雞 2024持續幹瘋狂的事~~上次 老師雞開 ❤️ 玩笑......."
+                        },
+                        "introImage": {
+                          "type": "string",
+                          "example": "imageUrl"
+                        },
+                        "bannerImage": {
+                          "type": "string",
+                          "example": "imageUrl"
+                        },
+                        "organizer": {
+                          "type": "string",
+                          "example": "卡米地 comedy club"
+                        },
+                        "eventStartDate": {
+                          "type": "string",
+                          "example": "1970-01-20T19:32:09.600Z"
+                        },
+                        "eventEndDate": {
+                          "type": "string",
+                          "example": "1970-01-20T20:15:21.599Z"
+                        },
+                        "releaseDate": {
+                          "type": "string",
+                          "example": "1970-01-20T19:32:09.600Z"
+                        },
+                        "payments": {
+                          "type": "array",
+                          "example": [
+                            "1",
+                            "2"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "tags": {
+                          "type": "array",
+                          "example": [
+                            "小巨蛋",
+                            "韓國團體"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "category": {
+                          "type": "array",
+                          "example": [
+                            "演唱會"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "__v": {
+                          "type": "number",
+                          "example": 0
+                        }
+                      }
+                    },
+                    "sessions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "startDate": {
+                            "type": "string",
+                            "example": "1970-01-20T20:57:07.200Z"
+                          },
+                          "startTime": {
+                            "type": "string",
+                            "example": "17:00"
+                          },
+                          "endTime": {
+                            "type": "string",
+                            "example": "19:00"
+                          },
+                          "place": {
+                            "type": "string",
+                            "example": "台北小巨蛋"
+                          },
+                          "prices": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "area": {
+                                  "type": "string",
+                                  "example": "綠2區"
+                                },
+                                "price": {
+                                  "type": "number",
+                                  "example": 500
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Events"
+        ],
+        "description": "503-修改活動[未完成]",
         "parameters": [
           {
             "name": "id",
@@ -282,22 +1050,792 @@
         }
       }
     },
+    "/api/v1/event/": {
+      "post": {
+        "tags": [
+          "Events"
+        ],
+        "description": "502-新增活動",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "會同時新增event、session、ticket",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "歐耶2023-24全台巡迴個人專場"
+                },
+                "intro": {
+                  "type": "string",
+                  "example": "【台北最終四場】歐耶2024最新全台巡迴個人專場：老師雞開啥玩笑?"
+                },
+                "content": {
+                  "type": "string",
+                  "example": "歐耶2023-24全台巡迴個人專場【 老師雞開 啥 玩笑 ? 】歐耶老師雞 2024持續幹瘋狂的事~~上次 老師雞開 ❤️ 玩笑......."
+                },
+                "introImage": {
+                  "type": "string",
+                  "example": "imageUrl"
+                },
+                "bannerImage": {
+                  "type": "string",
+                  "example": "imageUrl"
+                },
+                "organizer": {
+                  "type": "string",
+                  "example": "卡米地 comedy club"
+                },
+                "eventRange": {
+                  "type": "object",
+                  "properties": {
+                    "startDate": {
+                      "type": "number",
+                      "example": 1711929600
+                    },
+                    "endDate": {
+                      "type": "number",
+                      "example": 1714521599
+                    }
+                  }
+                },
+                "releaseDate": {
+                  "type": "string",
+                  "example": "1711929600"
+                },
+                "payments": {
+                  "type": "array",
+                  "example": [
+                    1,
+                    2
+                  ],
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "tags": {
+                  "type": "array",
+                  "example": [
+                    "小巨蛋",
+                    "韓國團體"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "category": {
+                  "type": "string",
+                  "example": "演唱會"
+                },
+                "sessions": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "date": {
+                        "type": "number",
+                        "example": 1717027200
+                      },
+                      "timeRange": {
+                        "type": "object",
+                        "properties": {
+                          "startTime": {
+                            "type": "string",
+                            "example": "17:00"
+                          },
+                          "endTime": {
+                            "type": "string",
+                            "example": "19:00"
+                          }
+                        }
+                      },
+                      "place": {
+                        "type": "string",
+                        "example": "台北小巨蛋"
+                      }
+                    }
+                  }
+                },
+                "prices": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "area": {
+                        "type": "string",
+                        "example": "綠2區"
+                      },
+                      "price": {
+                        "type": "number",
+                        "example": 500
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "eventName": {
+                      "type": "string",
+                      "example": "歐耶2023-24全台巡迴個人專場"
+                    },
+                    "eventIntro": {
+                      "type": "string",
+                      "example": "【台北最終四場】歐耶2024最新全台巡迴個人專場：老師雞開啥玩笑?"
+                    },
+                    "eventContent": {
+                      "type": "string",
+                      "example": "歐耶2023-24全台巡迴個人專場【 老師雞開 啥 玩笑 ? 】歐耶老師雞 2024持續幹瘋狂的事~~上次 老師雞開 ❤️ 玩笑......."
+                    },
+                    "introImage": {
+                      "type": "string",
+                      "example": "imageUrl"
+                    },
+                    "bannerImage": {
+                      "type": "string",
+                      "example": "imageUrl"
+                    },
+                    "organizer": {
+                      "type": "string",
+                      "example": "卡米地 comedy club"
+                    },
+                    "eventStartDate": {
+                      "type": "string",
+                      "example": "1970-01-20T19:32:09.600Z"
+                    },
+                    "eventEndDate": {
+                      "type": "string",
+                      "example": "1970-01-20T20:15:21.599Z"
+                    },
+                    "releaseDate": {
+                      "type": "string",
+                      "example": "1970-01-20T19:32:09.600Z"
+                    },
+                    "payments": {
+                      "type": "array",
+                      "example": [
+                        "1",
+                        "2"
+                      ],
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "tags": {
+                      "type": "array",
+                      "example": [
+                        "小巨蛋",
+                        "韓國團體"
+                      ],
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "category": {
+                      "type": "array",
+                      "example": [
+                        "演唱會"
+                      ],
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "_id": {
+                      "type": "string",
+                      "example": "66797ba5fd4c72984e20ac7b"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2024-06-24T13:59:01.402Z"
+                    },
+                    "updateAt": {
+                      "type": "string",
+                      "example": "2024-06-24T13:59:01.402Z"
+                    },
+                    "__v": {
+                      "type": "number",
+                      "example": 0
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/event/place": {
+      "post": {
+        "tags": [
+          "Events"
+        ],
+        "description": "new-手動新增場地",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "目前寫死在程式裡",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "placeName": {
+                      "type": "string",
+                      "example": "台北小巨蛋"
+                    },
+                    "area": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "areaName": {
+                            "type": "string",
+                            "example": "綠2區"
+                          },
+                          "areaRow": {
+                            "type": "number",
+                            "example": 2
+                          },
+                          "areaNumber": {
+                            "type": "number",
+                            "example": 3
+                          },
+                          "_id": {
+                            "type": "string",
+                            "example": "667978ef55808f889c2135d2"
+                          }
+                        }
+                      }
+                    },
+                    "_id": {
+                      "type": "string",
+                      "example": "667978ef55808f889c2135cc"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2024-06-24T13:47:27.505Z"
+                    },
+                    "updateAt": {
+                      "type": "string",
+                      "example": "2024-06-24T13:47:27.505Z"
+                    },
+                    "__v": {
+                      "type": "number",
+                      "example": 0
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/v1/order/tickets": {
       "get": {
-        "description": "",
+        "tags": [
+          "Order"
+        ],
+        "description": "200-查詢場次剩餘票數",
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "eventId": {
+                      "type": "string",
+                      "example": "66797ba5fd4c72984e20ac7b"
+                    },
+                    "eventName": {
+                      "type": "string",
+                      "example": "歐耶2023-24全台巡迴個人專場"
+                    },
+                    "eventContent": {
+                      "type": "string",
+                      "example": "歐耶2023-24全台巡迴個人專場【 老師雞開 啥 玩笑 ? 】歐耶老師雞 2024持續幹瘋狂的事~~上次 老師雞開 ❤️ 玩笑......."
+                    },
+                    "eventImages": {
+                      "type": "string",
+                      "example": "imageUrl"
+                    },
+                    "sessionId": {
+                      "type": "string",
+                      "example": "66797ba5fd4c72984e20ac7d"
+                    },
+                    "sessionDate": {
+                      "type": "string",
+                      "example": "17:00"
+                    },
+                    "tickets": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "areaName": {
+                            "type": "string",
+                            "example": "綠2區"
+                          },
+                          "count": {
+                            "type": "number",
+                            "example": 6
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/order/seats": {
+      "post": {
+        "tags": [
+          "Order"
+        ],
+        "description": "201-查詢場次剩餘座位",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "新增訂單",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "sessionId": {
+                  "type": "string",
+                  "example": "66797ba5fd4c72984e20ac7d"
+                },
+                "areaName": {
+                  "type": "string",
+                  "example": "特A區"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "sessionId": {
+                      "type": "string",
+                      "example": "66797ba5fd4c72984e20ac7d"
+                    },
+                    "areaName": {
+                      "type": "string",
+                      "example": "特A區"
+                    },
+                    "seats": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "row": {
+                            "type": "number",
+                            "example": 1
+                          },
+                          "number": {
+                            "type": "number",
+                            "example": 2
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/order/lock": {
+      "post": {
+        "tags": [
+          "Order"
+        ],
+        "description": "202-選擇座位(鎖定)",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "新增訂單",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "sessionId": {
+                  "type": "string",
+                  "example": "66797ba5fd4c72984e20ac7d"
+                },
+                "areaName": {
+                  "type": "string",
+                  "example": "特A區"
+                },
+                "seatRow": {
+                  "type": "string",
+                  "example": "1"
+                },
+                "seatNumber": {
+                  "type": "string",
+                  "example": "1"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "更新成功"
+                    },
+                    "sessionId": {
+                      "type": "string",
+                      "example": "66797ba5fd4c72984e20ac7d"
+                    },
+                    "areaName": {
+                      "type": "string",
+                      "example": "特A區"
+                    },
+                    "seatRow": {
+                      "type": "string",
+                      "example": "1"
+                    },
+                    "seatNumber": {
+                      "type": "string",
+                      "example": "1"
+                    },
+                    "remainSeats": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "seatRow": {
+                            "type": "number",
+                            "example": 1
+                          },
+                          "seatNumber": {
+                            "type": "number",
+                            "example": 2
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
           }
         }
       }
     },
     "/api/v1/order/create": {
       "post": {
-        "description": "",
+        "tags": [
+          "Order"
+        ],
+        "description": "203-產生訂單",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "新增訂單",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userName": {
+                  "type": "string",
+                  "example": "denny@gmail.com"
+                },
+                "sessionId": {
+                  "type": "string",
+                  "example": "66797ba5fd4c72984e20ac7d"
+                },
+                "count": {
+                  "type": "number",
+                  "example": 2
+                },
+                "areaName": {
+                  "type": "string",
+                  "example": "綠1區"
+                },
+                "seats": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "row": {
+                        "type": "string",
+                        "example": "1"
+                      },
+                      "number": {
+                        "type": "string",
+                        "example": "2"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "ticketName": {
+                      "type": "string",
+                      "example": "歐耶2023-24全台巡迴個人專場"
+                    },
+                    "areaName": {
+                      "type": "string",
+                      "example": "綠1區"
+                    },
+                    "areaPrice": {
+                      "type": "number",
+                      "example": 1000
+                    },
+                    "price": {
+                      "type": "number",
+                      "example": 2000
+                    },
+                    "seats": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "seatRow": {
+                            "type": "number",
+                            "example": 1
+                          },
+                          "seatNumber": {
+                            "type": "number",
+                            "example": 2
+                          },
+                          "_id": {
+                            "type": "string",
+                            "example": "66797faaa190fd08d94874cc"
+                          }
+                        }
+                      }
+                    },
+                    "ticketCount": {
+                      "type": "number",
+                      "example": 2
+                    },
+                    "userId": {
+                      "type": "string",
+                      "example": "denny@gmail.com"
+                    },
+                    "eventId": {
+                      "type": "string",
+                      "example": "66797ba5fd4c72984e20ac7b"
+                    },
+                    "sessinId": {
+                      "type": "string",
+                      "example": "66797ba5fd4c72984e20ac7d"
+                    },
+                    "orderStatus": {
+                      "type": "string",
+                      "example": "0"
+                    },
+                    "_id": {
+                      "type": "string",
+                      "example": "66797faaa190fd08d94874ca"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2024-06-24T14:16:10.898Z"
+                    },
+                    "updateAt": {
+                      "type": "string",
+                      "example": "2024-06-24T14:16:10.898Z"
+                    },
+                    "__v": {
+                      "type": "number",
+                      "example": 0
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/order/{orderId}": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "description": "205-查詢訂單",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "0:訂單成立、1:付款完成、2.付款失敗",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "orderId": {
+                      "type": "string",
+                      "example": "66797faaa190fd08d94874ca"
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "0"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
           }
         }
       }
@@ -1305,6 +2843,52 @@
             "BearerAuth": []
           }
         ]
+      }
+    },
+    "/api/v1/user/{userId}/orders": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/v1/user/{userId}/tracking": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
       }
     }
   }
