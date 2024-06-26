@@ -6,6 +6,8 @@ import passport from 'passport'
 
 const router = Router()
 
+router.get('/', (req, res) => res.send('Auth Route'));
+
 // register
 router.post(
   '/register',
@@ -79,23 +81,7 @@ router.post(
   handleErrorAsync(authController.logout)
 )
 
-// get users
-// router.get(
-//   '/users',
-
-//   /* 	#swagger.tags = ['Users']
-//       #swagger.description = '取得所有會員' */
-
-//   /*
-//     #swagger.security = [{
-//       "BearerAuth": []
-//     }]
-//     */
-//   jwtFn.isAuth,
-//   handleErrorAsync(authController.getUsers)
-// )
-
-router.get(
+router.post(
   '/google',
 
   /*  #swagger.tags = ['Auth']
