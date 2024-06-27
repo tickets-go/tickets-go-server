@@ -72,7 +72,7 @@ const jwtFn: any = {
       });
 
       // login
-      const user = await User.findOne({ "_id" : decodedPayload.id}).select("token role");
+      const user = await User.findOne({ "_id" : decodedPayload.id}).select("token role email");
       if(!user){
           return handle401Error(res, "請先登入");
       }
@@ -108,7 +108,8 @@ const jwtFn: any = {
     });
 
     // login
-    const user = await User.findOne({ "_id" : decodedPayload.id}).select("token role");
+    const user = await User.findOne({ "_id": decodedPayload.id }).select("token role");
+    
     if(!user){
         return handle401Error(res, "請先登入");
     }
