@@ -5,12 +5,12 @@ import { handleSuccess, handleError } from '../service/handleReply'
 import createError from 'http-errors'
 import User from '../models/user.model'
 import Order from '../models/order.model'
+import Event from '../models/event.model'
 
 import validator from 'validator'
 import bcrypt from 'bcryptjs'
 
 const regex = /^(?=.*[a-z])(?=.*[A-Z])/
-
 
 //密碼必須包含一個大小以及一個小寫字母
 const userController = {
@@ -138,29 +138,75 @@ const userController = {
   // get user all orders
   async getUserOrders(req: Request, res: Response, next: NextFunction) {
     try {
-      const { userId } = req.params
+      const userEmail = req.user.email
 
-      // status 0: 'upcoming'; 1: 'completed'
-      const { status } = req.query 
-
-      let query = Order.find({ userId: userId })
+      const { status } = req.query
 
       const now = new Date()
       const threeMonthsLater = new Date(now)
       threeMonthsLater.setMonth(now.getMonth() + 3)
-  
-      if (status) {
-        
-        if (status === 'comming') {
-          query = query.where('orderDate').gte(now.getTime()).lte(threeMonthsLater.getTime());
-        } else if (status === 'completed') {
-          query = query.where('orderDate').lt(now.getTime());
-        }
+
+      const orders = await Order.find({ userId: userEmail }).exec()
+
+      if (!orders || orders.length === 0) {
+        return handleSuccess(res, [], '目前無訂單資料')
       }
 
-      const orders = await query.exec()
+      // 查詢對應的活動
+      const ordersWithEventDetails = await Promise.all(
+        orders.map(async order => {
+          // 活動ID、活動名稱、活動內容、標籤、活動時間起迄、圖片
+          const event = await Event.findById(order.eventId)
+            .select('_id eventName eventIntro eventContent tags eventStartDate eventEndDate introImage bannerImage')
+            .exec()
 
-      handleSuccess(res, orders, 'success')
+          // 符合條件的訂單
+          let includeOrder = false
+
+          if (event) {
+            if (status === 'upcoming') {
+              // 即將來臨
+              includeOrder = event.eventStartDate >= now && event.eventStartDate <= threeMonthsLater
+            } else if (status === 'finished') {
+              // 已結束
+              includeOrder = event.eventStartDate < now
+            } else {
+              includeOrder = true // 如果沒有指定狀態，返回全部訂單
+            }
+          }
+
+          return includeOrder
+            ? {
+                order: {
+                  id: order._id,
+                  ticketName: order.ticketName,
+                  ticketCount: order.ticketCount,
+                  userId: order.userId,
+                  eventId: order.eventId,
+                  sessinId: order.sessinId,
+                  orderStatus: order.orderStatus
+                },
+                event: event
+                  ? {
+                      id: event._id,
+                      eventName: event.eventName,
+                      eventContent: event.eventContent,
+                      tags: event.tags,
+                      eventStartDate: event.eventStartDate,
+                      eventEndDate: event.eventEndDate,
+                      introImage: event.introImage,
+                      bannerImage: event.bannerImage
+                    }
+                  : null
+              }
+            : null
+        })
+      )
+
+      // 過濾掉不符合條件的訂單
+      const filteredOrders = ordersWithEventDetails.filter(order => order !== null)
+
+      handleSuccess(res, filteredOrders, 'success')
     } catch (err) {
       return next(err)
     }
@@ -169,7 +215,7 @@ const userController = {
   // get user tracking events
   async getUserTrackingEvents(req: Request, res: Response, next: NextFunction) {
     try {
-      // TODO: 
+      // TODO:
     } catch (err) {
       return next(err)
     }

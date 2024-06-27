@@ -21,17 +21,68 @@ router.get(
   handleErrorAsync(userController.getUsers)
 ),
 
-  // get users
-  router.get('/', jwtFn.isAuth, handleErrorAsync(userController.getUser)),
+  // get user
+  router.get('/profile', jwtFn.isAuth, handleErrorAsync(userController.getUser)),
 
-  // get user by id
-  router.get(
-    '/:id',
+  // 取得會員訂單狀態
+  /* 	#swagger.tags = ['Users']
+      #swagger.description = '取得會員訂單狀態' */
+  /*  #swagger.security = [{
+      "BearerAuth": []
+    }]
+  */
+  /*  #swagger.parameters['status'] = {
+        in: 'query',
+        description: '訂單狀態: upcoming(即將來臨) 或 finished(已結束)',
+        required: false,
+        schema: {
+          type: 'string'
+        }
+      } */
+  /*  #swagger.responses[200] = {
+        description: '成功取得訂單狀態',
+        schema: {
+          status: 'success',
+          data: [
+            {
+              order: {
+                _id: 'order_id', // 訂單的唯一值
+                ticketName: 'ticket_name', // 票券名稱
+                ticketCount: 2, // 票券數量
+                userId: 'user_id', // 用戶ID
+                eventId: 'event_id', // 活動ID
+                sessinId: 'session_id', // 場次ID
+                orderStatus: 'order_status' // 訂單狀態
+              },
+              event: {
+                _id: 'event_id',
+                eventName: 'event_name', // 活動名稱
+                eventContent: 'event_content', // 活動內容
+                tags: ['tag1', 'tag2'], // 活動標籤
+                eventStartDate: 'start_date', // 活動開始日期
+                eventEndDate: 'end_date', // 活動結束日期
+                introImage: 'image_url' // 活動介紹圖片
+                bannerImage: 'image_url' // 活動Banner圖片
+              }
+            }
+          ]
+        }
+      } */
+  router.get('/orders', jwtFn.isAuth, handleErrorAsync(userController.getUserOrders)),
 
-    /* 	#swagger.tags = ['Users']
+  // get user tracking events
+  /* 	#swagger.tags = ['Users']
+      #swagger.description = '取得會員追蹤活動' */
+  router.get('/:userId/tracking', jwtFn.isAuth, handleErrorAsync(userController.getUserTrackingEvents))
+
+// get user by id
+router.get(
+  '/:id',
+
+  /* 	#swagger.tags = ['Users']
     #swagger.description = '取得單一使用者' */
 
-    /* #swagger.responses[200] = { 
+  /* #swagger.responses[200] = { 
   schema: {
     "status": true,
     "message": "success",
@@ -43,14 +94,14 @@ router.get(
         "birthday": "2000-05-02T00:00:00.000Z"
     }
   }} */
-    /*
+  /*
     #swagger.security = [{
       "BearerAuth": []
     }]
   */
-    jwtFn.isAuth,
-    handleErrorAsync(userController.getUserById)
-  )
+  jwtFn.isAuth,
+  handleErrorAsync(userController.getUserById)
+)
 
 // update user by id
 router.put(
@@ -119,16 +170,6 @@ router.patch(
   jwtFn.isAuth,
   handleErrorAsync(userController.resetPassword)
 )
-
-// get user orders
-/* 	#swagger.tags = ['Users']
-      #swagger.description = '取得會員訂單狀態' */
-router.get('/:userId/orders', jwtFn.isAuth, handleErrorAsync(userController.getUserOrders))
-
-// get user tracking events
-/* 	#swagger.tags = ['Users']
-      #swagger.description = '取得會員追蹤活動' */
-router.get('/:userId/tracking', jwtFn.isAuth, handleErrorAsync(userController.getUserTrackingEvents))
 
 /* Admin permision */
 // delete user by id (admin only)
