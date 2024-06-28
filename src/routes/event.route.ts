@@ -1,14 +1,146 @@
-import { Router } from "express";
-import eventController from "../controllers/event.controller";
-import { handleErrorAsync } from "../service/handleErrorAsync";
+import { Router } from 'express'
+import eventController from '../controllers/event.controller'
+import { handleErrorAsync } from '../service/handleErrorAsync'
+import jwtFn from '../middleware/auth'
 
-const router = Router();
+const router = Router()
+
+// 取得會員追蹤的活動狀態
+/* 	#swagger.tags = ['Follow']
+    #swagger.description = '取得使用者追蹤的活動' */
+/*  #swagger.security = [{
+    "BearerAuth": []
+  }]
+*/
+/*  #swagger.parameters['status'] = {
+      in: 'query',
+      description: '訂單狀態: processing(進行中)、finished(已結束)、unstarted 未開始',
+      required: true,
+      schema: {
+        type: 'string'
+      }
+    } */
+/*  #swagger.responses[400] = {
+      description: '錯誤的參數',
+      schema: {
+        status: false,
+        message: '請輸入正確的參數'
+      }
+    } */
+/*  #swagger.responses[200] = {
+      description: '成功取得追蹤的活動狀態',
+      schema: {
+        status: 'success',
+        data: [
+          {
+            id: follow_id, // 追蹤活動的唯一值
+            eventId: {
+              id: 'event_id', // 活動的唯一值
+              eventName: 'event_name', // 活動名稱
+              eventContent: 'event_content', // 活動內容
+              tags: ['tag1', 'tag2'], // 活動標籤
+              introImage: 'image_url', // 活動介紹圖片
+              bannerImage: 'image_url' // 活動Banner圖片
+              eventStartDate: 'start_date', // 活動開始日期
+              eventEndDate: 'end_date', // 活動結束日期
+            }
+          }
+        ]
+      }
+    } */
+/*  #swagger.responses[200] = {
+      description: '無追蹤的活動',
+      schema: {
+        status: true,
+        message: 'success',
+        data: []
+      }
+    } */
+router.get('/follow', jwtFn.isAuth, handleErrorAsync(eventController.getFollowedEvents))
+
+// 追蹤活動
+/* 	#swagger.tags = ['Follow']
+    #swagger.description = '追蹤活動' */
+/*  #swagger.security = [{
+    "BearerAuth": []
+  }]
+*/
+/*  #swagger.parameters['eventId'] = {
+      in: 'path',
+      description: '活動ID',
+      required: true,
+      schema: {
+        type: 'string'
+      }
+    } */
+/*  #swagger.responses[200] = {
+      description: '成功追蹤活動',
+      schema: {
+        status: 'success',
+        message: '已成功追蹤活動'
+      }
+    } */
+/*  #swagger.responses[400] = {
+      description: '錯誤的參數',
+      schema: {
+        status: false,
+        message: '請輸入正確的參數'
+      }
+    } */
+/*  #swagger.responses[400] = {
+      description: '已追蹤該活動',
+      schema: {
+        status: false,
+        message: '已追蹤該活動'
+      }
+    } */
+router.post('/follow/:eventId', jwtFn.isAuth, handleErrorAsync(eventController.followEvent))
+
+// 取消追蹤活動
+/* 	#swagger.tags = ['Follow']
+    #swagger.description = '取消追蹤活動' */
+/*  #swagger.security = [{
+    "BearerAuth": []
+  }]
+*/
+/*  #swagger.parameters['eventId'] = {
+      in: 'path',
+      description: '活動ID',
+      required: true,
+      schema: {
+        type: 'string'
+      }
+    } */
+/*  #swagger.responses[200] = {
+      description: '成功取消追蹤活動',
+      schema: {
+        status: 'success',
+        message: '已成功取消追蹤活動'
+      }
+    } */
+/*  #swagger.responses[400] = {
+      description: '錯誤的參數',
+      schema: {
+        status: false,
+        message: '請輸入正確的參數'
+      }
+    } */
+/*  #swagger.responses[400] = {
+      description: '尚未追蹤該活動，無法取消',
+      schema: {
+        status: false,
+        message: '尚未追蹤該活動，無法取消'
+      }
+    } */
+router.delete('/unfollow/:eventId', jwtFn.isAuth, handleErrorAsync(eventController.unfollowEvent))
 
 //500 get all events
-router.get("/events",
-    /* 	#swagger.tags = ['Events']
+router.get(
+  '/events',
+
+  /* 	#swagger.tags = ['Events']
         #swagger.description = '500-查詢所有活動' */
-    /*  #swagger.responses[200] = {
+  /*  #swagger.responses[200] = {
            schema: {
                 "status": true,
                 "message": "success",
@@ -33,13 +165,16 @@ router.get("/events",
             }
         }*/
 
-    handleErrorAsync(eventController.findAllEvents));
+  handleErrorAsync(eventController.findAllEvents)
+)
 
 //501 get one event
-router.get("/:id",
-    /* 	#swagger.tags = ['Events']
+router.get(
+  '/:id',
+
+  /* 	#swagger.tags = ['Events']
         #swagger.description = '501-查詢活動詳情' */
-    /*  #swagger.responses[200] = {
+  /*  #swagger.responses[200] = {
            schema: {
         "status": true,
         "message": "success",
@@ -94,13 +229,16 @@ router.get("/:id",
     }
         }*/
 
-    handleErrorAsync(eventController.findOneEvent));
+  handleErrorAsync(eventController.findOneEvent)
+)
 
 //502 create event
-router.post("/",
-    /* 	#swagger.tags = ['Events']
+router.post(
+  '/',
+
+  /* 	#swagger.tags = ['Events']
         #swagger.description = '502-新增活動' */
-    /*	#swagger.parameters['obj'] = {
+  /*	#swagger.parameters['obj'] = {
               in: 'body',
               description: '會同時新增event、session、ticket',
               required: true,
@@ -140,7 +278,7 @@ router.post("/",
         } 
         */
 
-    /* #swagger.responses[200] = { 
+  /* #swagger.responses[200] = { 
        schema: {
             "status": true,
             "message": "success",
@@ -165,28 +303,37 @@ router.post("/",
         }
     }
 */
-    handleErrorAsync(eventController.createEvent));
+  handleErrorAsync(eventController.createEvent)
+)
 
 //503 update event
-router.patch("/:id",
-    /* 	#swagger.tags = ['Events']
+router.patch(
+  '/:id',
+
+  /* 	#swagger.tags = ['Events']
         #swagger.description = '503-修改活動[未完成]' */
 
-    handleErrorAsync(eventController.updateEvent));
+  handleErrorAsync(eventController.updateEvent)
+)
 
 //504 delete event
-router.delete("/events",
-    /* 	#swagger.tags = ['Events']
-        #swagger.description = '504-刪除活動' */
-    /*	#swagger.parameters['obj'] = {"eventId":[""]}} */
+router.delete(
+  '/events',
 
-    handleErrorAsync(eventController.deleteEvent));
+  /* 	#swagger.tags = ['Events']
+        #swagger.description = '504-刪除活動' */
+  /*	#swagger.parameters['obj'] = {"eventId":[""]}} */
+
+  handleErrorAsync(eventController.deleteEvent)
+)
 
 //new 手動新增場地
-router.post("/place",
-    /* 	#swagger.tags = ['Events']
+router.post(
+  '/place',
+
+  /* 	#swagger.tags = ['Events']
         #swagger.description = 'new-手動新增場地' */
-    /*	#swagger.parameters['obj'] = {
+  /*	#swagger.parameters['obj'] = {
           in: 'body',
           description: '目前寫死在程式裡',
           required: true,
@@ -194,7 +341,7 @@ router.post("/place",
       } 
     */
 
-    /* #swagger.responses[200] = { 
+  /* #swagger.responses[200] = { 
       schema: {
             "status": true,
             "message": "success",
@@ -217,7 +364,6 @@ router.post("/place",
     }
     */
 
-    handleErrorAsync(eventController.createPlace));
-
-
-export default router;
+  handleErrorAsync(eventController.createPlace)
+)
+export default router
