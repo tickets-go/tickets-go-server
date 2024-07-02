@@ -30,12 +30,7 @@ router.get('/tags',
     ]
   }
   }} */
-  /*
-    #swagger.security = [{
-      "BearerAuth": []
-    }]
-  */
-jwtFn.isAuth, handleErrorAsync(tagController.getAllTags));
+handleErrorAsync(tagController.getAllTags));
 
 // get tag by id
 router.get('/:id', 
@@ -53,12 +48,7 @@ router.get('/:id',
         "tagStatus": true
     }
   }} */
-  /*
-    #swagger.security = [{
-      "BearerAuth": []
-    }]
-  */
-jwtFn.isAuth, handleErrorAsync(tagController.getTagById));
+handleErrorAsync(tagController.getTagById));
 
 // create tag
 router.post('/', 

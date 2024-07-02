@@ -1913,13 +1913,6 @@
           "Tags"
         ],
         "description": "取得所有標籤",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
         "responses": {
           "200": {
             "schema": {
@@ -1960,12 +1953,7 @@
             },
             "description": "OK"
           }
-        },
-        "security": [
-          {
-            "BearerAuth": []
-          }
-        ]
+        }
       }
     },
     "/api/v1/tag/{id}": {
@@ -1979,11 +1967,6 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
             "type": "string"
           }
         ],
@@ -2024,12 +2007,7 @@
             },
             "description": "OK"
           }
-        },
-        "security": [
-          {
-            "BearerAuth": []
-          }
-        ]
+        }
       },
       "put": {
         "tags": [
