@@ -30,6 +30,7 @@ const homeController = {
                 for (var j = 0; j < sessions.length; j++) {
                     var session = sessions[j];
                     sessionArr.push({
+                        "sessionId": session._id,
                         "location": session.sessionPlace,
                         "startDate": session.sessionStartDate,
                         "startTime": session.sessionStartTime,

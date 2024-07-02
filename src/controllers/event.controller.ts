@@ -29,7 +29,7 @@ const eventController = {
       const releaseDate = eventReq.releaseDate
       const payments = eventReq.payments //陣列
       const tags = eventReq.tags //陣列
-      const category = eventReq.category
+      // const category = eventReq.category
       const sessions = eventReq.sessions //陣列+物件
       const prices = eventReq.prices //陣列+物件
 
@@ -45,7 +45,7 @@ const eventController = {
         releaseDate: releaseDate,
         payments: payments,
         tags: tags,
-        category: category
+        // category: category
       })
 
       //createSession
@@ -224,6 +224,43 @@ const eventController = {
       //這裡還需要做資料的整理
       const eventReq = req.body
 
+      //createEvent
+      const name = eventReq.name
+      const intro = eventReq.intro
+      const content = eventReq.content
+      const introImage = eventReq.introImage
+      const bannerImage = eventReq.bannerImage
+      const organizer = eventReq.organizer
+      const eventRange = eventReq.eventRange //物件
+      const releaseDate = eventReq.releaseDate
+      const payments = eventReq.payments //陣列
+      const tags = eventReq.tags //陣列
+      const category = eventReq.category
+      // const sessions = eventReq.sessions //不能改場次資訊
+      // const prices = eventReq.prices //不能改票價
+
+      var ticket = await Event.findOneAndUpdate(
+        {
+          _id: eventId,
+        }
+        ,
+        {
+          eventName: name,
+          eventIntro: intro,
+          eventContent: content,
+          introImage: introImage,
+          bannerImage: bannerImage,
+          organizer: organizer,
+          eventStartDate: eventRange,
+          eventEndDate: eventRange,
+          releaseDate: releaseDate,
+          payments: payments,
+          tags: tags,
+          category: category,
+          updateAt: Date.now
+        }
+      );
+
       handleSuccess(res, eventReq, 'success')
     } catch (err) {
       return next(err)
@@ -243,9 +280,6 @@ const eventController = {
           { areaName: '綠1區', areaRow: 2, areaNumber: 3 },
           { areaName: '綠2區', areaRow: 2, areaNumber: 3 }
         ]
-
-        // createdAt: Date.now,
-        // updateAt: Date.now
       })
 
       handleSuccess(res, newPlace, 'success')
