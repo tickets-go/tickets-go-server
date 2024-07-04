@@ -251,13 +251,12 @@ const eventController = {
           introImage: introImage,
           bannerImage: bannerImage,
           organizer: organizer,
-          eventStartDate: eventRange,
-          eventEndDate: eventRange,
+          eventStartDate: eventRange.startDate,
+          eventEndDate: eventRange.endDate,
           releaseDate: releaseDate,
           payments: payments,
           tags: tags,
-          category: category,
-          updateAt: Date.now
+          category: category
         }
       );
 

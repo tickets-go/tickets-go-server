@@ -15,9 +15,14 @@ const homeController = {
             const startTime = req.query.startTime;
             const endTime = req.query.endTime;
 
+            console.log(tags);
+            console.log(startTime);
+            console.log(endTime);
+
             const events = await Event.find({
-                "eventStartDate": { "$gt": startTime },
-                "eventEndDate": { "$lt": endTime }
+                "eventStartDate": { $gt: startTime },
+                "eventEndDate": { $lt: endTime },
+                "tags": { "$all": tags }
             });
 
             var array = [];
