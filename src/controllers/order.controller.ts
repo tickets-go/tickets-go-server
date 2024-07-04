@@ -168,7 +168,7 @@ const orderController = {
         try {
 
             const orderReq = req.body;
-            const userName = orderReq.userName;
+            const userId = orderReq.userId;
             const sessionId = orderReq.sessionId;
             const areaName = orderReq.areaName;
             const count = orderReq.count;
@@ -215,7 +215,7 @@ const orderController = {
                 price: price * count,
                 seats: seatArr,
                 ticketCount: count,
-                userId: userName,
+                userId: userId,
                 eventId: session.eventId,
                 sessinId: session._id,
                 orderStatus: "0"

@@ -243,38 +243,46 @@ router.post(
               description: '會同時新增event、session、ticket',
               required: true,
               schema: {
-                "name": "歐耶2023-24全台巡迴個人專場",
-                "intro": "【台北最終四場】歐耶2024最新全台巡迴個人專場：老師雞開啥玩笑?",
-                "content": "歐耶2023-24全台巡迴個人專場【 老師雞開 啥 玩笑 ? 】歐耶老師雞 2024持續幹瘋狂的事~~上次 老師雞開 ❤️ 玩笑.......",
-                "introImage": "imageUrl",
-                "bannerImage": "imageUrl",
-                "organizer": "卡米地 comedy club",
-                "eventRange": {"startDate": 1711929600,"endDate": 1714521599},
+                  "name": "歐耶2023-24全台巡迴個人專場",
+                  "intro": "【台北最終四場】歐耶2024最新全台巡迴個人專場：老師雞開啥玩笑?",
+                  "content": "歐耶2023-24全台巡迴個人專場【 老師雞開 啥 玩笑 ? 】歐耶老師雞 2024持續幹瘋狂的事~~上次 老師雞開 ❤️ 玩笑.......",
+                  "introImage": "imageUrl",
+                  "bannerImage": "imageUrl",
+                  "organizer": "卡米地 comedy club",
+                  "eventRange": {
+                    "startDate": 1711929600,
+                    "endDate": 1717027200
+                  },
                 "releaseDate":"1711929600",
                 "payments": [1, 2],
                 "tags": ["小巨蛋", "韓國團體"],
-                "category": "演唱會",
                 "sessions": [
                     {
-                        "date": 1717027200,
-                        "timeRange": {"startTime": "17:00","endTime": "19:00"},
-                        "place": "台北小巨蛋"
+                      "date": 1714521599,
+                      "timeRange": {
+                        "startTime": "17:00",
+                        "endTime": "19:00"
+                      },
+                      "place": "台北小巨蛋"
                     },
                     {
-                        "date": 1717027200,
-                        "timeRange": {"startTime": "17:00","endTime": "19:00"},
-                        "place": "台北小巨蛋"
+                      "date": 1717027200,
+                      "timeRange": {
+                        "startTime": "17:00",
+                        "endTime": "19:00"
+                      },
+                      "place": "台北小巨蛋"
                     }
-                ],
-                "prices": [
-                    {"area": "特A區","price": 3000},
-                    {"area": "特B區","price": 2000},
-                    {"area": "紅1區","price": 1000},
-                    {"area": "紅2區","price": 500},
-                    {"area": "綠1區","price": 1000},
-                    {"area": "綠2區","price": 500}
-                ]
-            }
+                  ],
+            "prices": [
+              {"area": "特A區","price": 3000},
+              {"area": "特B區","price": 2000},
+              {"area": "紅1區","price": 1000},
+              {"area": "紅2區","price": 500},
+              {"area": "綠1區","price": 1000},
+              {"area": "綠2區","price": 500}
+            ]
+          }
         } 
         */
 
