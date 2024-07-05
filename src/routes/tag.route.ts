@@ -30,7 +30,7 @@ router.get('/tags',
     ]
   }
   }} */
-handleErrorAsync(tagController.getAllTags));
+  handleErrorAsync(tagController.getAllTags));
 
 // get tag by id
 router.get('/:id', 
@@ -48,7 +48,12 @@ router.get('/:id',
         "tagStatus": true
     }
   }} */
-handleErrorAsync(tagController.getTagById));
+  /*
+    #swagger.security = [{
+      "BearerAuth": []
+    }]
+  */
+ handleErrorAsync(tagController.getTagById));
 
 // create tag
 router.post('/', 

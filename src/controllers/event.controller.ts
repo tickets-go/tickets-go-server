@@ -431,6 +431,59 @@ const eventController = {
     } catch (error) {
       return next(error)
     }
+  },
+
+  // 關鍵字查詢
+  async searchEvent(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { query } = req.query
+
+      if (!query) {
+        return handleError(res, createError(400, '請輸入關鍵字'))
+      }
+
+      // 模糊搜尋
+      const searchQuery = Array.isArray(query) ? query[0] : query
+
+      if (typeof searchQuery !== 'string') {
+        return handleError(res, createError(400, '格式錯誤，請重新輸入'))
+      }
+
+      const searchQueries = searchQuery.split(',').map(q => q.trim())
+
+      // 使用 'i' 來忽略大小寫
+      const searchRegexes = searchQueries.map(q => new RegExp(q, 'i'))
+
+      const currentDate = new Date()
+
+      const events = await Event.find({
+        $and: [
+          { $or: [{ name: { $in: searchRegexes } }, { tags: { $in: searchRegexes } }] },
+          { eventStartDate: { $gte: currentDate } } // 尚未開始或已經開始但尚未結束的活動。
+        ]
+      })
+        .select(
+          '_id eventName eventIntro eventContent introImage bannerImage eventStartDate eventEndDate releaseDate tags'
+        )
+        .exec()
+
+      const response = events.map(event => ({
+        id: event._id,
+        eventName: event.eventName,
+        eventIntro: event.eventIntro,
+        eventContent: event.eventContent,
+        tags: event.tags,
+        introImage: event.introImage,
+        bannerImage: event.bannerImage,
+        eventStartDate: event.eventStartDate,
+        eventEndDate: event.eventEndDate,
+        releaseDate: event.releaseDate
+      }))
+
+      handleSuccess(res, response, 'success')
+    } catch (error) {
+      return next(error)
+    }
   }
 }
 

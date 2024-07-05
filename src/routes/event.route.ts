@@ -5,6 +5,59 @@ import jwtFn from '../middleware/auth'
 
 const router = Router()
 
+// 關鍵字搜尋活動
+/* 	#swagger.tags = ['Event']
+    #swagger.description = '根據關鍵字搜尋活動' */
+/*  #swagger.security = [{
+    "BearerAuth": []
+  }]
+*/
+/*  #swagger.parameters['query'] = {
+      in: 'query',
+      description: '搜尋關鍵字，使用逗號分隔多個關鍵字',
+      required: true,
+      schema: {
+        type: 'string'
+      }
+    } */
+/*  #swagger.responses[400] = {
+      description: '錯誤的參數',
+      schema: {
+        status: false,
+        message: '請輸入正確的參數'
+      }
+    } */
+/*  #swagger.responses[200] = {
+      description: '成功取得搜尋結果',
+      schema: {
+        status: 'success',
+        data: [
+          {
+            id: event._id, // 活動的唯一值
+            eventName: event.eventName,// 活動名稱
+            eventIntro: event.eventIntro, // 活動介紹
+            eventContent: event.eventContent, // 活動內容
+            tags: ['tag1', 'tag2'] // 活動標籤
+            introImage: event.introImage, // 活動介紹圖片
+            bannerImage: event.bannerImage, // 活動Banner圖片
+            eventStartDate: event.eventStartDate, // 活動開始日期
+            eventEndDate: event.eventEndDate, // 活動結束日期
+            releaseDate: event.releaseDate // 發佈日期
+          }
+        ]
+      }
+    } */
+/*  #swagger.responses[200] = {
+      description: '沒有找到符合條件的活動',
+      schema: {
+        status: true,
+        message: 'success',
+        data: []
+      }
+    } */
+router.get('/search', handleErrorAsync(eventController.searchEvent));
+
+
 // 取得會員追蹤的活動狀態
 /* 	#swagger.tags = ['Follow']
     #swagger.description = '取得使用者追蹤的活動' */
@@ -374,4 +427,6 @@ router.post(
 
   handleErrorAsync(eventController.createPlace)
 )
+
+
 export default router
