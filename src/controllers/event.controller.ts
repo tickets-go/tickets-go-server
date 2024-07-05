@@ -44,7 +44,8 @@ const eventController = {
         eventEndDate: eventRange.endDate,
         releaseDate: releaseDate,
         payments: payments,
-        tags: tags,
+        tags: tags
+
         // category: category
       })
 
@@ -236,14 +237,14 @@ const eventController = {
       const payments = eventReq.payments //陣列
       const tags = eventReq.tags //陣列
       const category = eventReq.category
+
       // const sessions = eventReq.sessions //不能改場次資訊
       // const prices = eventReq.prices //不能改票價
 
-      var ticket = await Event.findOneAndUpdate(
+      const ticket = await Event.findOneAndUpdate(
         {
-          _id: eventId,
-        }
-        ,
+          _id: eventId
+        },
         {
           eventName: name,
           eventIntro: intro,
@@ -258,7 +259,7 @@ const eventController = {
           tags: tags,
           category: category
         }
-      );
+      )
 
       handleSuccess(res, eventReq, 'success')
     } catch (err) {
@@ -454,12 +455,16 @@ const eventController = {
       // 使用 'i' 來忽略大小寫
       const searchRegexes = searchQueries.map(q => new RegExp(q, 'i'))
 
-      const currentDate = new Date()
-
+      // const currentDate = new Date()
+      // console.log(currentDate)
+      
+      // TODO: 補上時間區間
       const events = await Event.find({
         $and: [
-          { $or: [{ name: { $in: searchRegexes } }, { tags: { $in: searchRegexes } }] },
-          { eventStartDate: { $gte: currentDate } } // 尚未開始或已經開始但尚未結束的活動。
+          { $or: [{ eventName: { $in: searchRegexes } }, { tags: { $in: searchRegexes } }] },
+
+          // { eventStartDate: { $lte: currentDate } }, // 活動已經開始
+          // { eventEndDate: { $gte: currentDate } } // 活動尚未結束
         ]
       })
         .select(
