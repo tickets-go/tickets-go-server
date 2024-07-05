@@ -41,13 +41,6 @@ router.get("/events",
 
     handleErrorAsync(homeController.findEvents));
 
-//101 get event tag
-router.get("/eventTags",
-    /* 	#swagger.tags = ['Home']
-    #swagger.description = '101-查詢活動類別[未完成]' */
-
-    handleErrorAsync(homeController.findTags));
-
 //104 get home detail
 router.get("/:eventId",
     /* 	#swagger.tags = ['Home']
