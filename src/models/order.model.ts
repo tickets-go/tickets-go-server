@@ -19,6 +19,7 @@ const orderSchema = new mongoose.Schema({
     eventId: { type: String, required: [true, "請輸入活動id"] },
     sessinId: { type: String, required: [true, "請輸入場次id"] },
     orderStatus: { type: String, required: [true, "請輸入訂單狀態"] },
+    MerchantOrderNo: {type: String, require: false},
     
     createdAt: { type: Date, default: Date.now, select: false },
     updateAt: { type: Date, default: Date.now, select: false }
