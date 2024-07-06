@@ -84,6 +84,7 @@ const homeController = {
             for (var j = 0; j < sessions.length; j++) {
                 var session = sessions[j];
                 sessionArr.push({
+                    "sessionId": session._id,
                     "location": session.sessionPlace,
                     "startDate": session.sessionStartDate,
                     "startTime": session.sessionStartTime,
@@ -92,7 +93,7 @@ const homeController = {
             }
 
             var oneEvent = {
-                "id": event._id,
+                "eventId": event._id,
                 "name": event.eventName,
                 "description": event.eventContent,
                 "sessions": sessionArr,
