@@ -10,18 +10,25 @@ const homeController = {
 
     async findEvents(req: Request, res: Response, next: NextFunction) {
         try {
-
-            const tags = req.query.tags;
-            const startTime = req.query.startTime;
-            const endTime = req.query.endTime;
-
+            const { tags, startTime, endTime } = req.query;
             console.log(tags);
             console.log(startTime);
             console.log(endTime);
+            // if (tags == null) {
+            //     tags = await Tag.find();
+            // }
+
+            // if (startTime == null) {
+            //     startTime = 0;
+            // }
+
+            // if (endTime == null) {
+            //     endTime = new Date('2030-06-08').getTime();
+            // }
 
             const events = await Event.find({
-                "eventStartDate": { $gt: startTime },
-                "eventEndDate": { $lt: endTime },
+                "eventStartDate": { $gte: startTime },
+                "eventEndDate": { $lte: endTime },
                 "tags": { "$all": tags }
             });
 
@@ -59,10 +66,6 @@ const homeController = {
         } catch (err) {
             return next(err)
         }
-    },
-    //未完成
-    async findTags(req: Request, res: Response, next: NextFunction) {
-
     },
     async findEventDetail(req: Request, res: Response, next: NextFunction) {
 
