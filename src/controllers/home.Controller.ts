@@ -14,23 +14,27 @@ const homeController = {
             console.log(tags);
             console.log(startTime);
             console.log(endTime);
-            // if (tags == null) {
-            //     tags = await Tag.find();
-            // }
 
-            // if (startTime == null) {
-            //     startTime = 0;
-            // }
+            const condition:any = {};
+            if(tags!=null){
+                condition.tags = { "$all": tags };
+            }
+            if(startTime!=null){
+                condition.eventStartDate = { $gte: startTime };
+            }
+            if(endTime!=null){
+                condition.eventEndDate = { $lte: endTime };
+            }
 
-            // if (endTime == null) {
-            //     endTime = new Date('2030-06-08').getTime();
-            // }
+            console.log(condition);
 
-            const events = await Event.find({
-                "eventStartDate": { $gte: startTime },
-                "eventEndDate": { $lte: endTime },
-                "tags": { "$all": tags }
-            });
+            const events = await Event.find(condition);
+
+            // const events = await Event.find({
+            //     "eventStartDate": { $gte: startTime },
+            //     "eventEndDate": { $lte: endTime },
+            //     "tags": { "$all": tags }
+            // });
 
             var array = [];
 
