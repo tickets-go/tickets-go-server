@@ -16,6 +16,7 @@ import orderRouter from './routes/order.route'
 import tagRouter from './routes/tag.route'
 import imageRouter from './routes/image.route'
 import homeRouter from './routes/home.route'
+import newebpayRouter from './routes/newebpay.route'
 
 import './connections'
 
@@ -48,6 +49,7 @@ app.use('/api/v1/event', eventRouter)
 app.use('/api/v1/order', orderRouter)
 app.use('/api/v1/tag', tagRouter)
 app.use('/api/v1/image', imageRouter)
+app.use('/api/v1/newebpay', newebpayRouter)
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerFile))
 
 
