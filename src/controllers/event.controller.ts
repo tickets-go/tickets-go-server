@@ -196,6 +196,7 @@ const eventController = {
         }
 
         sessionArr.push({
+          sessionId: session._id,
           startDate: session.sessionStartDate,
           startTime: session.sessionStartTime,
           endTime: session.sessionEndTime,

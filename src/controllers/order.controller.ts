@@ -42,7 +42,14 @@ const orderController = {
                 var areaName = areas[i].areaName;
                 var count = tickets.filter((ticket) => ticket.areaName == areaName).length;
 
+                var oneTicket = await Ticket.findOne({ sessionId: sessionId, areaName: areaName });
+                var price = 0;
+                if(oneTicket!=null){
+                    var price = oneTicket.price;
+                }
+
                 ticketArr.push({
+                    "price": price,
                     "areaName": areaName,
                     "count": count
                 });
@@ -69,11 +76,7 @@ const orderController = {
     async querySeats(req: Request, res: Response, next: NextFunction) {
         try {
 
-            const sessionId = req.body.sessionId;
-            const areaName = req.body.areaName;
-
-            // const sessionId = req.query.sessionId;
-            // const areaName = req.query.areaName;
+            const { sessionId, areaName } = req.body;
 
             const tickets = await Ticket.find({
                 sessionId: sessionId,
@@ -105,10 +108,7 @@ const orderController = {
     async lockSeat(req: Request, res: Response, next: NextFunction) {
         try {
 
-            const sessionId = req.body.sessionId;
-            const areaName = req.body.areaName;
-            const seatRow = req.body.seatRow;
-            const seatNumber = req.body.seatNumber;
+            const { sessionId, areaName, seatRow, seatNumber } = req.body;
 
             const tickets = await Ticket.findOneAndUpdate(
                 {
@@ -167,12 +167,7 @@ const orderController = {
     async createOrder(req: Request, res: Response, next: NextFunction) {
         try {
 
-            const orderReq = req.body;
-            const userId = orderReq.userId;
-            const sessionId = orderReq.sessionId;
-            const areaName = orderReq.areaName;
-            const count = orderReq.count;
-            const seats = orderReq.seats;
+            const { userId, sessionId, areaName, count, seats } = req.body;
 
             const session = await Session.findById({ _id: sessionId });
             if (session == null) {
