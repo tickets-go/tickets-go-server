@@ -51,12 +51,12 @@ const eventController = {
 
       //createSession
       console.log('sessions的長度:' + sessions.length)
-      for (let i = 0; i < sessions.length; i++) {
-        const session = sessions[i]
-        const sessionDate = session.date
-        const sessionStartTime = session.timeRange.startTime
-        const sessionEndTime = session.timeRange.endTime
-        const sessionPlace = session.place
+      for (var i = 0; i < sessions.length; i++) {
+        var session = sessions[i]
+        var sessionDate = session.date
+        var sessionStartTime = session.timeRange.startTime
+        var sessionEndTime = session.timeRange.endTime
+        var sessionPlace = session.place
 
         const newSession = await Session.create({
           eventId: newEvent._id,
@@ -71,24 +71,24 @@ const eventController = {
         //createTicket
         console.log(prices.length)
         for (let j = 0; j < prices.length; j++) {
-          const price = prices[j]
+          var price = prices[j]
 
-          const areaName = price.area
+          var areaName = price.area
 
           // placeName,areaName
-          const place = await Place.findOne({ placeName: sessionPlace })
+          var place = await Place.findOne({ placeName: sessionPlace })
           if (place == null) {
             return handleError(res, createError(400, '[' + sessionPlace + ']' + '沒有這個場地'))
           }
 
-          const areas = place.area
-          const area: any = areas.filter(e => areaName == e.areaName)
+          var areas = place.area
+          var area: any = areas.filter(e => areaName == e.areaName)
           console.log(area)
           if (area.length === 0) {
             return handleError(res, createError(400, '[' + areaName + ']' + '沒有這個區域'))
           }
-          const areaRow = area[0].areaRow
-          const areaNumber = area[0].areaNumber
+          var areaRow = area[0].areaRow
+          var areaNumber = area[0].areaNumber
 
           console.log('areaRow:' + areaRow)
           console.log('areaNumber:' + areaNumber)
@@ -222,11 +222,8 @@ const eventController = {
   async updateEvent(req: Request, res: Response, next: NextFunction) {
     try {
       const eventId = req.params.id
+      const eventReq = req.body;
 
-      //這裡還需要做資料的整理
-      const eventReq = req.body
-
-      //createEvent
       const name = eventReq.name
       const intro = eventReq.intro
       const content = eventReq.content
@@ -239,10 +236,11 @@ const eventController = {
       const tags = eventReq.tags //陣列
       const category = eventReq.category
 
-      // const sessions = eventReq.sessions //不能改場次資訊
-      // const prices = eventReq.prices //不能改票價
+      const sessions = eventReq.sessions
+      const prices = eventReq.prices
 
-      const ticket = await Event.findOneAndUpdate(
+      //修改活動
+      const event = await Event.findOneAndUpdate(
         {
           _id: eventId
         },
@@ -258,9 +256,53 @@ const eventController = {
           releaseDate: releaseDate,
           payments: payments,
           tags: tags,
-          category: category
+          category: category,
+          updateAt: new Date()
         }
       )
+
+      //修改場次
+      for (var i = 0; i < sessions.length; i++) {
+        var session = sessions[i]
+        var sessionId = session.sessionId
+        var sessionDate = session.date
+        var sessionStartTime = session.timeRange.startTime
+        var sessionEndTime = session.timeRange.endTime
+        var sessionPlace = session.place
+
+        await Session.findByIdAndUpdate(
+          {
+            _id: sessionId
+          },
+          {
+            sessionName: name,
+            sessionStartDate: sessionDate,
+            sessionStartTime: sessionStartTime,
+            sessionEndTime: sessionEndTime,
+            sessionPlace: sessionPlace,
+            sessionStatus: '0',
+            updateAt: new Date()
+          }
+        )
+      }
+
+      //修改票價
+      for (var i = 0; i < prices.length; i++) {
+        var priceObj = prices[i]
+        var areaName = priceObj.area
+        var price = priceObj.price
+
+        await Ticket.updateMany(
+          {
+            eventId: eventId,
+            areaName: areaName
+          },
+          {
+            price: price,
+            updateAt: new Date()
+          }
+        )
+      }
 
       handleSuccess(res, eventReq, 'success')
     } catch (err) {
@@ -458,7 +500,7 @@ const eventController = {
 
       // const currentDate = new Date()
       // console.log(currentDate)
-      
+
       // TODO: 補上時間區間
       const events = await Event.find({
         $and: [
