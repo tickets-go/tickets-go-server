@@ -61,7 +61,9 @@ const orderController = {
                 "eventContent": event.eventContent,
                 "eventImages": event.introImage,
                 "sessionId": sessionId,
-                "sessionDate": session.sessionStartTime,
+                "sessionStartDate":session.sessionStartDate,
+                "sessionStartTime": session.sessionStartTime,
+                "sessionEndTime": session.sessionEndTime,
                 "tickets": ticketArr,
 
             };
