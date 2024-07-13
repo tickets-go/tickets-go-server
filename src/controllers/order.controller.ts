@@ -58,7 +58,7 @@ const orderController = {
             var result = {
                 "eventId": eventId,
                 "eventName": event.eventName,
-                "eventContent": event.eventContent,
+                "eventContent": event.eventIntro,
                 "eventImages": event.introImage,
                 "sessionId": sessionId,
                 "sessionStartDate":session.sessionStartDate,
