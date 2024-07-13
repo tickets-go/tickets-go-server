@@ -108,7 +108,8 @@ const newebpayController = {
   // 交易成功：Return （可直接解密，將資料呈現在畫面上）
   async newebpayReturn(req: Request, res: Response, next: NextFunction) {
     console.log('req.body return data', req.body);
-    res.render('http://tickets-go-fe.vercel.app', { title: 'test_pay' });
+    res.redirect('http://tickets-go-fe.vercel.app');
+    // res.render('http://tickets-go-fe.vercel.app', { title: 'test_pay' });
   },
 
   // 確認交易：Notify
