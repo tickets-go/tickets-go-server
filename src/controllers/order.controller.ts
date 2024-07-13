@@ -44,7 +44,7 @@ const orderController = {
 
                 var oneTicket = await Ticket.findOne({ sessionId: sessionId, areaName: areaName });
                 var price = 0;
-                if(oneTicket!=null){
+                if (oneTicket != null) {
                     var price = oneTicket.price;
                 }
 
@@ -61,7 +61,7 @@ const orderController = {
                 "eventContent": event.eventIntro,
                 "eventImages": event.introImage,
                 "sessionId": sessionId,
-                "sessionStartDate":session.sessionStartDate,
+                "sessionStartDate": session.sessionStartDate,
                 "sessionStartTime": session.sessionStartTime,
                 "sessionEndTime": session.sessionEndTime,
                 "tickets": ticketArr,
@@ -236,7 +236,19 @@ const orderController = {
                 return handleError(res, createError(400, '找不到訂單'));
             }
 
+            const session = await Session.findById({ _id: order.sessinId });
+            if (session == null) {
+                return handleError(res, createError(400, '找不到場次'));
+            }
+
             var result = {
+                "sessionStartDate": session.sessionStartDate,
+                "sessionStartTime": session.sessionStartTime,
+                "sessionEndTime": session.sessionEndTime,
+                "sessionPlace": session.sessionPlace,
+                "sessionName": session.sessionName,
+                "areaName": order.areaName,
+                "seats": order.seats,
                 "orderId": orderId,
                 "status": order.orderStatus //0:訂單成立、1:付款完成、2.付款失敗
             };
