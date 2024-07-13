@@ -107,8 +107,21 @@ const newebpayController = {
 
   // 交易成功：Return （可直接解密，將資料呈現在畫面上）
   async newebpayReturn(req: Request, res: Response, next: NextFunction) {
-    console.log('req.body return data', req.body);
-    res.redirect('http://tickets-go-fe.vercel.app');
+
+    const data = await Order.find().sort({createdAt: -1 });
+
+    var orderId = null;
+    if(data!=null){
+      if(data.length>0){
+        var order = data[0]._id;
+        orderId = order._id;
+      }
+    }
+
+    var url = 'https://tickets-go-fe.vercel.app/purchase?step=4' + '&orderId=' +data[0]._id;
+
+    // console.log('req.body return data', req.body);
+    res.redirect(url);
     // res.render('http://tickets-go-fe.vercel.app', { title: 'test_pay' });
   },
 
