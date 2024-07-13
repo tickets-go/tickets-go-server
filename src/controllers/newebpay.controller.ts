@@ -42,10 +42,10 @@ const newebpayController = {
 
       const user = await User.findById(orderId.userId);
       var email = 'test@gmail.com';
-      if(user!=null){
+      if (user != null) {
         email = user.email;
       }
-      
+
 
       // 使用 Unix Timestamp 作為訂單編號（金流也需要加入時間戳記）
       const TimeStamp: Number = Math.round(new Date().getTime() / 1000);
@@ -90,8 +90,14 @@ const newebpayController = {
         "PayGateWay": PayGateWay
       }
 
-      await Order.findByIdAndUpdate(orderId, { MerchantOrderNo: order.MerchantOrderNo });
-
+      //@@修改訂單先藏這裡@@
+      await Order.findByIdAndUpdate(
+        orderId,
+        {
+          MerchantOrderNo: order.MerchantOrderNo,
+          orderStatus: 1
+        });
+        
       handleSuccess(res, result, 'success')
 
     } catch (err) {
@@ -117,12 +123,6 @@ const newebpayController = {
 
     // 取得交易內容，並查詢本地端資料庫是否有相符的訂單
     console.log(data?.Result?.MerchantOrderNo);
-
-    //@@修改訂單先藏這裡@@
-    await Order.findOneAndUpdate(
-      { MerchantOrderNo: data?.Result?.MerchantOrderNo },
-      { orderStatus: 1 }
-    );
 
     //select order
     const object = await Order.findOne({ MerchantOrderNo: data?.Result?.MerchantOrderNo });
