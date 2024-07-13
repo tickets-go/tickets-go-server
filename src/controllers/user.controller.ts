@@ -138,7 +138,7 @@ const userController = {
   // get user all orders
   async getUserOrders(req: Request, res: Response, next: NextFunction) {
     try {
-      const userEmail = req.user.email
+      const userId = req.user._id
 
       const { status } = req.query
 
@@ -146,7 +146,7 @@ const userController = {
       const threeMonthsLater = new Date(now)
       threeMonthsLater.setMonth(now.getMonth() + 3)
 
-      const orders = await Order.find({ userId: userEmail }).exec()
+      const orders = await Order.find({ userId }).exec()
 
       if (!orders || orders.length === 0) {
         return handleSuccess(res, [], '目前無訂單資料')
