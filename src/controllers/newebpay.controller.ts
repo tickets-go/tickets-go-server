@@ -12,6 +12,7 @@ import Session from '../models/session.model'
 import Ticket from '../models/ticket.model'
 import Order from '../models/order.model'
 import Place from '../models/place.model'
+import User from '../models/user.model';
 
 
 const orders = {};
@@ -38,14 +39,22 @@ const newebpayController = {
       }
       console.log(object);
 
+
+      const user = await User.findById(orderId.userId);
+      var email = 'test@gmail.com';
+      if(user!=null){
+        email = user.email;
+      }
+      
+
       // 使用 Unix Timestamp 作為訂單編號（金流也需要加入時間戳記）
       const TimeStamp: Number = Math.round(new Date().getTime() / 1000);
       const data = {
         aesEncrypt: '',
         shaEncrypt: '',
-        Email: 'j@gmail.com',
+        Email: email,
         Amt: object.price,
-        ItemDesc: '測試商品',
+        ItemDesc: object.ticketName,
         TimeStamp,
         MerchantOrderNo: TimeStamp,
       };
@@ -73,7 +82,7 @@ const newebpayController = {
         "TimeStamp": TimeStamp,
         "Version": Version,
         "NotifyUrl": NotifyUrl,
-        "ReturnUrl": ReturnUrl,
+        "ReturnUrl": ReturnUrl + '&orderId=' + orderId,
         "MerchantOrderNo": order.MerchantOrderNo,
         "Amt": order.Amt,
         "ItemDesc": order.ItemDesc,
@@ -126,7 +135,7 @@ const newebpayController = {
     //update order status
     await Order.findOneAndUpdate(
       { MerchantOrderNo: data?.Result?.MerchantOrderNo },
-      {orderStatus:1}
+      { orderStatus: 1 }
     );
 
     return res.end();
