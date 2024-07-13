@@ -117,6 +117,13 @@ const newebpayController = {
 
     // 取得交易內容，並查詢本地端資料庫是否有相符的訂單
     console.log(data?.Result?.MerchantOrderNo);
+
+    //@@修改訂單先藏這裡@@
+    await Order.findOneAndUpdate(
+      { MerchantOrderNo: data?.Result?.MerchantOrderNo },
+      { orderStatus: 1 }
+    );
+
     //select order
     const object = await Order.findOne({ MerchantOrderNo: data?.Result?.MerchantOrderNo });
     if (object == null) {
