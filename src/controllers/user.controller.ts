@@ -140,6 +140,8 @@ const userController = {
     try {
       const userId = req.user._id
 
+      // console.log(userId)
+
       const { status } = req.query
 
       const now = new Date()
@@ -155,6 +157,8 @@ const userController = {
       // 查詢對應的活動
       const ordersWithEventDetails = await Promise.all(
         orders.map(async order => {
+          console.log(order.eventId)
+
           // 活動ID、活動名稱、活動內容、標籤、活動時間起迄、圖片
           const event = await Event.findById(order.eventId)
             .select('_id eventName eventIntro eventContent tags eventStartDate eventEndDate introImage bannerImage')
@@ -163,17 +167,22 @@ const userController = {
           // 符合條件的訂單
           let includeOrder = false
 
-          if (event) {
-            if (status === 'upcoming') {
-              // 即將來臨
-              includeOrder = event.eventStartDate >= now && event.eventStartDate <= threeMonthsLater
-            } else if (status === 'finished') {
-              // 已結束
-              includeOrder = event.eventStartDate < now
-            } else {
-              includeOrder = true // 如果沒有指定狀態，返回全部訂單
-            }
-          }
+          // if (event) {
+          //   console.log(event.eventStartDate)
+          //   const eventStartDate = new Date(event.eventStartDate);
+          //   console.log(eventStartDate)
+          //   if (status === 'upcoming') {
+          //     // 即將來臨
+          //     includeOrder = eventStartDate >= now && eventStartDate <= threeMonthsLater;
+
+          //   } else if (status === 'finished') {
+          //     // 已結束
+          //     includeOrder = eventStartDate < now;
+          //   } else {
+          //     includeOrder = true // 如果沒有指定狀態，返回全部訂單
+          //   }
+          // }
+          includeOrder = true
 
           return includeOrder
             ? {
