@@ -57,7 +57,7 @@ const homeController = {
                 var oneEvent = {
                     "id": event._id,
                     "name": event.eventName,
-                    "description": event.eventContent,
+                    "description": event.eventIntro,
                     "sessions": sessionArr,
                     "tags": event.tags
                 };
