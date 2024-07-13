@@ -241,7 +241,14 @@ const orderController = {
                 return handleError(res, createError(400, '找不到場次'));
             }
 
+            const event = await Event.findById({ _id: order.eventId });
+            if (event == null) {
+                return handleError(res, createError(400, '找不到活動'));
+            }
+
             var result = {
+                "introImage": event.introImage,
+                "bannerImage": event.bannerImage,
                 "sessionStartDate": session.sessionStartDate,
                 "sessionStartTime": session.sessionStartTime,
                 "sessionEndTime": session.sessionEndTime,
