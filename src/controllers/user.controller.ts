@@ -190,6 +190,7 @@ const userController = {
                   ? {
                       id: event._id,
                       eventName: event.eventName,
+                      eventIntro: event.eventIntro,
                       eventContent: event.eventContent,
                       tags: event.tags,
                       eventStartDate: event.eventStartDate,
